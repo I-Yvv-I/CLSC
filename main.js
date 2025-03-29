@@ -1,5 +1,5 @@
 function showText() {
-    let text = document.getElementById("input").value;
-    document.getElementById("output").innerText = text;
-    lex(text)
+    let text = document.getElementById("sc").value;
+    let output = lex(text)
+    document.getElementById("output").innerText = output.toString();
 }
