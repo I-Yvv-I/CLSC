@@ -8,17 +8,17 @@
 </head>
 <body>
     <textarea id="sc" wrap="off" rows="25" cols="50" placeholder="Sound Changes">
-feature type = affix,cons,vowel
+feature type = affix,cons,vowel;
 
-feature height = close,nearclose,closemid,mid,openmid,nearopen,open
-feature backness = front,central,back
-feature roundness = unround,round
+feature height = close,nearclose,closemid,mid,openmid,nearopen,open;
+feature backness = front,central,back;
+feature roundness = unround,round;
 
-letter a = vowel,open,central,unround
+letter a = vowel,open,central,unround;
 
 rule rule = {
-    s k > ʃ / _ [vowel] // _ [open] # Sound Change
-}</textarea>
+    s k > ʃ / _ [vowel] // _ [open] ; Sound Change
+};</textarea>
     <textarea id="input" wrap="off" rows="25" cols="50" placeholder="Input">
 skaski
 skuska</textarea>

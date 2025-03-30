@@ -20,8 +20,9 @@ function lex(script) {
             if (type == "" && inrule == false && keywords.includes(char)) {
                 tokens.push("KEY:" + char);
                 type = char;
-            } else if (char == "#" || char.charAt(0) == '#') { // Comment
-                break;
+            } else if (char == ";" || char.charAt(0) == ';') { // New line / comment
+                tokens.push("EOL");
+                break
             } else if (type == "" && inrule == true) { // In-Rule
                 //console.log(char.charAt(0),char.charAt(0) == "[" || inbracket,bracket)
                 if (char == '}') {
@@ -34,7 +35,7 @@ function lex(script) {
                 } else if (char.charAt(0) == "[" || inbracket) {
                     inbracket = true
                     if (char.slice(1,-2).includes(',')) {
-                        return "Line " + i + ": '" + char + "' cannot have a ','.";
+                        return "Line " + (i+1) + ": '" + char + "' cannot have a ','.";
                     }
                     bracket.push(char.slice(1,-1))
                     //console.log(bracket,char.charAt(char.length-1),char.slice(-1,-2))
@@ -49,9 +50,18 @@ function lex(script) {
             } else if (type == "feature") { // Feature
                 if (char == "=") {
                     if (tokens[tokens.length-1].slice(0,3) != "VAR") {
-                        return "Line " + i + ": '" + char + "' cannot be there, you need a variable dummy.";
+                        return "Line "+ (i+1) + ": '" + char + "' cannot be there, you need a variable dummy.";
                     }
-                    tokens.push("VLS:" + line.split(" ")[j+1]);
+                    let vls = line.split(" ")[j+1];
+                    let semi = false
+                    if (vls.charAt(vls.length-1) == ';') {
+                        vls = vls.slice(0,-1)
+                        semi = true
+                    }
+                    tokens.push("VLS:" + vls);
+                    if (semi) {
+                        tokens.push("EOL");
+                    }
                     break;
                 } else {
                     tokens.push("VAR:" + char);
@@ -59,21 +69,31 @@ function lex(script) {
             } else if (type == "letter") { // Letter
                 if (char == "=") {
                     if (tokens[tokens.length-1].slice(0,3) != "LET") {
-                        return "Line " + i + ": '" + char + "' cannot be there, you need a letter dummy.";
+                        return "Line "+ (i+1) + ": '" + char + "' cannot be there, you need a letter dummy.";
                     }
-                    tokens.push("VLS:" + line.split(" ")[j+1]);
-                    break;
+                    let vls = line.split(" ")[j+1];
+                    let semi = false
+                    if (vls.charAt(vls.length-1) == ';') {
+                        vls = vls.slice(0,-1)
+                        semi = true
+                    }
+                    tokens.push("VLS:" + vls);
+                    if (semi) {
+                        tokens.push("EOL");
+                    }
+                    break
                 } else {
                     tokens.push("LET:" + char);
                 }
             } else if (type == "rule") { // Rule
                 if (char == "=") {
                     if (tokens[tokens.length-1].slice(0,3) != "RUL") {
-                        return "Line " + i + ": '" + char + "' cannot be there, you need a rule-name dummy.";
+                        return "Line "+ (i+1) + ": '" + char + "' cannot be there, you need a rule-name dummy.";
                     }
                     if (line.split(" ")[j+1] != "{") {
-                        return "Line " + i + ": Wheres the open curly bracket?";
+                        return "Line "+ (i+1) + ": Wheres the open curly bracket?";
                     }
+                    tokens.push("EOL");
                     inrule = true;
                     break;
                 } else {
@@ -81,10 +101,11 @@ function lex(script) {
                 }
             }
         }
-        if (inrule) {
-            bracket.push("NEWLINE")
+        if (tokens[tokens.length-1] != "EOL") {
+            console.log(tokens);
+            return "Line "+ (i+1) + ": No semicolon?";
         }
-        //console.log(tokens.join(","));
+        //console.log(tokens.join("|"));
         i += 1;
     }
 
