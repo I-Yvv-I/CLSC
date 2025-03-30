@@ -20,7 +20,7 @@ function lex(script) {
                 if (type == "" && keywords.includes(tok.slice(0, -1))) {
                     tokens.push("KEY:" + tok.slice(0, -1));
                     type = tok.slice(0, -1)
-                } else if (type == "ft") {
+                } else if (type == "feature") {
                     if (tok.slice(0, -1) == "=") {
                         tokens.push("VLS:" + line.slice(j));
                         type = ""
@@ -30,7 +30,7 @@ function lex(script) {
                     } else {
                         tokens.push("VAR:" + tok.slice(0, -1));
                     }
-                } else if (type = "lt") {
+                } else if (type = "letter") {
                     if (tok.slice(0, -1) == "=") {
                         tokens.push("VLS:" + line.slice(j));
                         type = ""
