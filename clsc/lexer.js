@@ -1,4 +1,4 @@
-const keywords = ["ft", "lt", "rl"]
+const keywords = ["feature", "letter", "rule"]
 const symbols = ["=","{","}","[","]"]
 
 function lex(script) {
@@ -30,6 +30,14 @@ function lex(script) {
                     } else {
                         tokens.push("VAR:" + tok.slice(0, -1));
                     }
+                } else if (type = "lt") {
+                    if (tok.slice(0, -1) == "=") {
+                        tokens.push("VLS:" + line.slice(j));
+                        type = ""
+                        continue;
+                    } else {
+                        tokens.push("LET:" + tok.slice(0, -1));
+                    }
                 }
                 tok = "";
             }
@@ -37,7 +45,7 @@ function lex(script) {
         tok = "";
         console.log(tokens);
     }
-
+//mewo
     console.log(tokens);
     return tokens;
 }
