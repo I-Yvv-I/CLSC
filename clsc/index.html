@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <textarea id="sc" wrap="off" font="Consolas" rows="25" cols="50" placeholder="Sound Changes">
+    <textarea id="sc" wrap="off" rows="25" cols="50" placeholder="Sound Changes">
 feature type = affix,cons,vowel
 
 feature height = close,nearclose,closemid,mid,openmid,nearopen,open
@@ -19,11 +19,12 @@ letter a = vowel,open,central,unround
 rule rule = {
     s k > ʃ / _ [vowel] \ _ [open] # Sound Change
 }</textarea>
-    <textarea id="input" wrap="off" font="Consolas" rows="25" cols="50" placeholder="Input">
+    <textarea id="input" wrap="off" rows="25" cols="50" placeholder="Input">
 skaski
 skuska</textarea>
     <button onclick="showText()">Apply Changes</button>
-    <p font="Consolas" id="output"></p>
+    <p id="output"></p>
+    <h3>NOTICE: THIS IS NOT FINISHED; EXPECT BUGS, DEVELOPMENT THINGS, AND THINGS TO BE MISSING</h3>
 
     <script src="lexer.js"></script>
     <script src="parser.js"></script>
